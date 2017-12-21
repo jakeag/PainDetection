@@ -51,8 +51,12 @@ int main(void)
     cout << "*********************************************" << endl;
     
     //Read the video stream
-    capture.open(-1);
-    if(!capture.isOpened()) { printf("--(!)Error opening video capture\n"); return -1; }
+    capture.open(0); //Open default video stream
+    if(!capture.isOpened()) //Check if successful
+    {   
+        capture.release(); 
+        capture.open(-1); //Try another index if default fails
+    }
     while(capture.read(frame))
     {
         if(frame.empty())
